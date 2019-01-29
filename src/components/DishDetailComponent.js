@@ -4,51 +4,52 @@ import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbIte
 import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Loading } from './LoadingComponent';
+import { baseUrl } from '../shared/baseUrl';
 
-	const maxLength = (len) => (val) => !(val) || (val.length <= len);
-	const minLength = (len) => (val) => val && (val.length >= len);
+const maxLength = (len) => (val) => !(val) || (val.length <= len);
+const minLength = (len) => (val) => val && (val.length >= len);
 
-	const RenderDish = ({dish}) => {
-		return (
-			<Card>
-				<CardImg width="100%" src={dish.image} alt={dish.name} />
-				<CardBody>
-					<CardTitle> { dish.name } </CardTitle>
-					<CardText>{dish.description}</CardText>
-				</CardBody>
-			</Card>
-			);
-	};
+const RenderDish = ({dish}) => {
+	return (
+		<Card>
+			<CardImg width="100%" src={baseUrl + dish.image} alt={dish.name} />
+			<CardBody>
+				<CardTitle> { dish.name } </CardTitle>
+				<CardText>{dish.description}</CardText>
+			</CardBody>
+		</Card>
+		);
+};
 
-	const RenderComments = ({comments, addComment, dishId}) => {
-		if (comments!=null) {
-			const commentItems = comments.map((comment) => {
-				const commentDate = new Date(comment.date).toLocaleString('en-US', {year: 'numeric', month: 'short', day: 'numeric'});
-				return (
-					<li 
-						key={comment.id}
-					>
-					{comment.comment}
-					<br/>
-					 -- {comment.author}, {new Intl.DateTimeFormat('en-US', {year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(commentDate)))}
-					<br/>&nbsp;
-					</li>
-					);
-			});
-
+const RenderComments = ({comments, addComment, dishId}) => {
+	if (comments!=null) {
+		const commentItems = comments.map((comment) => {
+			const commentDate = new Date(comment.date).toLocaleString('en-US', {year: 'numeric', month: 'short', day: 'numeric'});
 			return (
-				<div>
-					<h4>Comments</h4>
-					<ul className="list-unstyled">
-						{commentItems}
-					</ul>
-					<CommentForm dishId={dishId} addComment={addComment} />
-				</div>
-			);
-		} else {
-			return <div><h4>Comments</h4></div>;
-		}
-	};
+				<li 
+					key={comment.id}
+				>
+				{comment.comment}
+				<br/>
+				 -- {comment.author}, {new Intl.DateTimeFormat('en-US', {year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(commentDate)))}
+				<br/>&nbsp;
+				</li>
+				);
+		});
+
+		return (
+			<div>
+				<h4>Comments</h4>
+				<ul className="list-unstyled">
+					{commentItems}
+				</ul>
+				<CommentForm dishId={dishId} addComment={addComment} />
+			</div>
+		);
+	} else {
+		return <div><h4>Comments</h4></div>;
+	}
+};
 
 class CommentForm extends Component {
 

@@ -32,11 +32,9 @@ const RenderComments = ({comments, postComment, dishId}) => {
 		const commentItems = comments.map((comment) => {
 			const commentDate = new Date(comment.date).toLocaleString('en-US', {year: 'numeric', month: 'short', day: 'numeric'});
 			return (
-				<Fade in>
-					<li 
-						key={comment.id}
-					>
-					{comment.comment}
+				<Fade in key={comment.id}>
+					<li key={comment.id}>
+						{comment.comment}
 					<br/>
 					 -- {comment.author}, {new Intl.DateTimeFormat('en-US', {year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(commentDate)))}
 					<br/>&nbsp;
